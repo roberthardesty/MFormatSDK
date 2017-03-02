@@ -31,6 +31,7 @@
             this.panelPreview = new System.Windows.Forms.Panel();
             this.btnRecord = new System.Windows.Forms.Button();
             this.btnPlayback = new System.Windows.Forms.Button();
+            this.comboBoxDevices = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // panelPreview
@@ -58,11 +59,22 @@
             this.btnPlayback.Text = "Playback";
             this.btnPlayback.UseVisualStyleBackColor = true;
             // 
+            // comboBoxDevices
+            // 
+            this.comboBoxDevices.FormattingEnabled = true;
+            this.comboBoxDevices.Location = new System.Drawing.Point(93, 258);
+            this.comboBoxDevices.Name = "comboBoxDevices";
+            this.comboBoxDevices.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxDevices.TabIndex = 3;
+            this.comboBoxDevices.Text = "Default";
+            this.comboBoxDevices.SelectedIndexChanged += new System.EventHandler(this.comboBoxDevices_SelectedIndexChange);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 415);
+            this.Controls.Add(this.comboBoxDevices);
             this.Controls.Add(this.btnPlayback);
             this.Controls.Add(this.btnRecord);
             this.Controls.Add(this.panelPreview);
@@ -77,6 +89,7 @@
         private System.Windows.Forms.Panel panelPreview;
         private System.Windows.Forms.Button btnRecord;
         private System.Windows.Forms.Button btnPlayback;
+        private System.Windows.Forms.ComboBox comboBoxDevices;
     }
 }
 
