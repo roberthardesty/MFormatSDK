@@ -1,15 +1,27 @@
-﻿using System;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.ComponentModel;
+//using System.Data;
+//using System.Drawing;
+//using System.Linq;
+//using System.Text;
+//using System.Runtime.InteropServices;
+//using System.Threading.Tasks;
+//using System.Windows.Forms;
+//using MFORMATSLib;
+//using System.Threading;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
+using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using MFORMATSLib;
-using System.Threading;
 
 namespace MFormatConfidence1
 {
@@ -18,8 +30,11 @@ namespace MFormatConfidence1
 
         private MFWriter Writer;
         private MFReader Reader;
-        private MFPreviewClass Preview;
-        private MFLiveClass Live;
+        private IMPreview Preview;
+
+        private IMFSource Live;
+        private IMFReceiver receivePreview;
+        private MFLiveClass test = new MFLiveClass();
 
         M_AV_PROPS avProps;
 
@@ -38,7 +53,7 @@ namespace MFormatConfidence1
         {
             Writer = new MFWriter();
             Reader = new MFReader();
-            Preview = new MFPreviewClass();
+            //Preview = new MFPreviewClass();
 
             Preview.PreviewWindowSet("", panelPreview.Handle.ToInt32());
             Preview.PreviewEnable("", 1, 1);
@@ -79,7 +94,7 @@ namespace MFormatConfidence1
                             }
                             catch(Exception e)
                             {
-                                MessageBox.Show("Error: " e.ToString());
+                                MessageBox.Show("Error: " +  e.ToString());
                             }
                         }
                     }
@@ -90,7 +105,7 @@ namespace MFormatConfidence1
                         btnRecord.BackColor = Color.AntiqueWhite;
                     }
 
-                    Preview.ReceiverFramePut(frame, -1, "");
+                    receivePreview.ReceiverFramePut(frame, -1, "");
 
                     Marshal.ReleaseComObject(frame);                
                 }
@@ -160,15 +175,51 @@ namespace MFormatConfidence1
 
         private void InitLive()
         {
-            Live.DeviceSet(eMFDeviceType.eMFDT_Video, comboBoxDevices.SelectedIndex, "");
-            M_VID_PROPS vidProps;
-            string name;
-            if()
+            try
+            {
+                Live.DeviceSet(eMFDeviceType.eMFDT_Video, comboBoxDevices.SelectedIndex, "");
+                M_VID_PROPS vidProps;
+                string name;
+                Live.FormatVideoGetByIndex(eMFormatType.eMFT_Input, 0, out vidProps, out name);
+                Live.FormatVideoSet(eMFormatType.eMFT_Input, vidProps);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Could not set a device: " + e.ToString());
+            }
+
+            isWorking = true;          
         }
 
         private void InitRecord()
         {
+            SaveFileDialog sfd = new SaveFileDialog();
+            try
+            {
+                string strFormat;
+                IMFProps props;
+                Writer.WriterOptionGet(eMFWriterOption.eMFWO_Format, out strFormat, out props);
 
-        }
+                string protocol = "";
+                props.PropsGet("protocol", out protocol);
+                string network = "";
+                props.PropsGet("network", out network);
+
+                //if(network == "true" || protocol.Contains("udp") || protocol.Contains("rtmp") || protocol.Contains("rtsp")) && textBoxURL.Text.Length > 0)
+                if (sfd.ShowDialog() == DialogResult.OK)
+                    Writer.WriterSet(sfd.FileName, 1, "format = 'webm' video::codec = 'libvpx' audio::codec = 'libvorbis'");
+                isRec = true;
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Error:  " + e.ToString());
+            }
+       }
+        
+        private void btnStopRec_Click(object sender, EventArgs e)
+        {
+            isRec = false;
+            Writer.WriterClose(1);
+        } 
     }
 }

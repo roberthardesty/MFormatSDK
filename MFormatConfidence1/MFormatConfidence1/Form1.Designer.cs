@@ -32,6 +32,7 @@
             this.btnRecord = new System.Windows.Forms.Button();
             this.btnPlayback = new System.Windows.Forms.Button();
             this.comboBoxDevices = new System.Windows.Forms.ComboBox();
+            this.btnStopRec = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // panelPreview
@@ -69,11 +70,21 @@
             this.comboBoxDevices.Text = "Default";
             this.comboBoxDevices.SelectedIndexChanged += new System.EventHandler(this.comboBoxDevices_SelectedIndexChange);
             // 
+            // btnStopRec
+            // 
+            this.btnStopRec.Location = new System.Drawing.Point(12, 285);
+            this.btnStopRec.Name = "btnStopRec";
+            this.btnStopRec.Size = new System.Drawing.Size(75, 23);
+            this.btnStopRec.TabIndex = 4;
+            this.btnStopRec.Text = "Stop";
+            this.btnStopRec.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 415);
+            this.Controls.Add(this.btnStopRec);
             this.Controls.Add(this.comboBoxDevices);
             this.Controls.Add(this.btnPlayback);
             this.Controls.Add(this.btnRecord);
@@ -90,6 +101,7 @@
         private System.Windows.Forms.Button btnRecord;
         private System.Windows.Forms.Button btnPlayback;
         private System.Windows.Forms.ComboBox comboBoxDevices;
+        private System.Windows.Forms.Button btnStopRec;
     }
 }
 
