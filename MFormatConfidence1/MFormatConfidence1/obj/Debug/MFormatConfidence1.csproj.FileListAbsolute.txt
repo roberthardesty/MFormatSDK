@@ -1,1 +1,4 @@
 c:\users\roberth\documents\visual studio 2015\Projects\MFormatConfidence1\MFormatConfidence1\bin\Debug\MFormatConfidence1.exe.config
+C:\Users\roberth\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\bin\Debug\MFormatConfidence1.exe.config
+C:\Users\roberth\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\Interop.MFORMATSLib.dll
+C:\Users\roberth\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.csproj.ResolveComReference.cache
