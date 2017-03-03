@@ -28,13 +28,10 @@ namespace MFormatConfidence1
     public partial class Form1 : Form
     {
 
-        private MFWriter Writer;
-        private MFReader Reader;
-        private IMPreview Preview;
-
-        private IMFSource Live;
-        private IMFReceiver receivePreview;
-        private MFLiveClass test = new MFLiveClass();
+        private MFWriterClass mWriter;
+        private MFReaderClass mReader;
+        private MFPreviewClass mPreview;
+        private MFLiveClass mLive;
 
         M_AV_PROPS avProps;
 
@@ -51,12 +48,20 @@ namespace MFormatConfidence1
 
        private void Form1_Load(object sender, EventArgs e)
         {
-            Writer = new MFWriter();
-            Reader = new MFReader();
+            mWriter = new MFWriterClass();
+            mReader = new MFReaderClass();
+            mPreview = new MFPreviewClass();
             //Preview = new MFPreviewClass();
-
-            Preview.PreviewWindowSet("", panelPreview.Handle.ToInt32());
-            Preview.PreviewEnable("", 1, 1);
+            try
+            {
+                mLive = new MFLiveClass();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("No Live Devices Available: " + ex.ToString());
+            }
+            mPreview.PreviewWindowSet("", panelPreview.Handle.ToInt32());
+            mPreview.PreviewEnable("", 1, 1);
 
             FillComboBox();
 
@@ -66,6 +71,7 @@ namespace MFormatConfidence1
             threadWorker.Start();
 
             avProps.vidProps.eVideoFormat = eMVideoFormat.eMVF_Custom;
+            System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;
 
         }
 
@@ -76,7 +82,7 @@ namespace MFormatConfidence1
                 if (isWorking)
                 {
                     MFFrame frame = null;
-                    Live.SourceFrameConvertedGet(ref avProps, -1, out frame, "");
+                    mLive.SourceFrameConvertedGet(ref avProps, -1, out frame, "");
 
                     if(frame != null)
                     {
@@ -88,7 +94,7 @@ namespace MFormatConfidence1
 
                             try
                             {
-                                Writer.ReceiverFramePut(frame, -1, "");
+                                mWriter.ReceiverFramePut(frame, -1, "");
 
                                 //UpdateStatistic()
                             }
@@ -105,7 +111,7 @@ namespace MFormatConfidence1
                         btnRecord.BackColor = Color.AntiqueWhite;
                     }
 
-                    receivePreview.ReceiverFramePut(frame, -1, "");
+                    mPreview.ReceiverFramePut(frame, -1, "");
 
                     Marshal.ReleaseComObject(frame);                
                 }
@@ -123,7 +129,7 @@ namespace MFormatConfidence1
             int deviceCount;
             try
             {
-                Live.DeviceGetCount(eMFDeviceType.eMFDT_Video, out deviceCount);
+                mLive.DeviceGetCount(eMFDeviceType.eMFDT_Video, out deviceCount);
 
                 if(deviceCount > 0)
                 {
@@ -131,14 +137,16 @@ namespace MFormatConfidence1
                     {
                         string strName;
                         int isBusy;
-                        Live.DeviceGetByIndex(eMFDeviceType.eMFDT_Video, i, out strName, out isBusy);
+                        mLive.DeviceGetByIndex(eMFDeviceType.eMFDT_Video, i, out strName, out isBusy);
                         comboBoxDevices.Items.Add(strName);
                     }
 
                     comboBoxDevices.SelectedIndex = comboBoxDevices.Items.Count -1;
                 }
-
-                btnRecord.Enabled = false;
+                else
+                {
+                    btnRecord.Enabled = false;
+                }            
             }
             catch(Exception e)
             {
@@ -150,7 +158,7 @@ namespace MFormatConfidence1
         {
             //M_VID_PROPS vidProps;
 
-            Live.DeviceSet(eMFDeviceType.eMFDT_Video, comboBoxDevices.SelectedIndex, "");
+            mLive.DeviceSet(eMFDeviceType.eMFDT_Video, comboBoxDevices.SelectedIndex, "");
 
             ////RefreshProps
 
@@ -177,11 +185,11 @@ namespace MFormatConfidence1
         {
             try
             {
-                Live.DeviceSet(eMFDeviceType.eMFDT_Video, comboBoxDevices.SelectedIndex, "");
+                mLive.DeviceSet(eMFDeviceType.eMFDT_Video, comboBoxDevices.SelectedIndex, "");
                 M_VID_PROPS vidProps;
                 string name;
-                Live.FormatVideoGetByIndex(eMFormatType.eMFT_Input, 0, out vidProps, out name);
-                Live.FormatVideoSet(eMFormatType.eMFT_Input, vidProps);
+                mLive.FormatVideoGetByIndex(eMFormatType.eMFT_Input, 0, out vidProps, out name);
+                mLive.FormatVideoSet(eMFormatType.eMFT_Input, vidProps);
             }
             catch(Exception e)
             {
@@ -198,7 +206,7 @@ namespace MFormatConfidence1
             {
                 string strFormat;
                 IMFProps props;
-                Writer.WriterOptionGet(eMFWriterOption.eMFWO_Format, out strFormat, out props);
+                mWriter.WriterOptionGet(eMFWriterOption.eMFWO_Format, out strFormat, out props);
 
                 string protocol = "";
                 props.PropsGet("protocol", out protocol);
@@ -207,7 +215,7 @@ namespace MFormatConfidence1
 
                 //if(network == "true" || protocol.Contains("udp") || protocol.Contains("rtmp") || protocol.Contains("rtsp")) && textBoxURL.Text.Length > 0)
                 if (sfd.ShowDialog() == DialogResult.OK)
-                    Writer.WriterSet(sfd.FileName, 1, "format = 'webm' video::codec = 'libvpx' audio::codec = 'libvorbis'");
+                    mWriter.WriterSet(sfd.FileName, 1, "format = 'webm' video::codec = 'libvpx' audio::codec = 'libvorbis'");
                 isRec = true;
             }
             catch(Exception e)
@@ -219,7 +227,7 @@ namespace MFormatConfidence1
         private void btnStopRec_Click(object sender, EventArgs e)
         {
             isRec = false;
-            Writer.WriterClose(1);
+            mWriter.WriterClose(1);
         } 
     }
 }

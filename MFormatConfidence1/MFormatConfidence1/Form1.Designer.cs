@@ -50,6 +50,7 @@
             this.btnRecord.TabIndex = 1;
             this.btnRecord.Text = "Record";
             this.btnRecord.UseVisualStyleBackColor = true;
+            this.btnRecord.Click += new System.EventHandler(this.btnRecord_Click);
             // 
             // btnPlayback
             // 
@@ -78,6 +79,7 @@
             this.btnStopRec.TabIndex = 4;
             this.btnStopRec.Text = "Stop";
             this.btnStopRec.UseVisualStyleBackColor = true;
+            this.btnStopRec.Click += new System.EventHandler(this.btnStopRec_Click);
             // 
             // Form1
             // 
@@ -92,6 +94,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
+            this.Load += new System.EventHandler(this.Form1_Load);
 
         }
 
