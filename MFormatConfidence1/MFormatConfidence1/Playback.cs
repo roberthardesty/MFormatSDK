@@ -50,9 +50,7 @@ namespace MFormatConfidence1
 
         private MFReaderClass objMFReader;            //MFormats Reader object
         private MFPreviewClass objPreview;            //Preview object
-        private PlayerState playerState;              //Playback state
-        private MFRendererClass objRenderer;          //MRenderer object
-        private MFSinkClass objMFSink;                //MFSink object
+        private PlayerState playerState;              //Playback state            
 
         private MFFactory objFactory;			//Frames class used to create MFrame from file
         private Thread threadWorker;	//Working thread
@@ -76,8 +74,6 @@ namespace MFormatConfidence1
             objFactory = new MFFactory();
             objPreview = new MFPreviewClass();
             playerState = new PlayerState();
-            objRenderer = new MFRendererClass();
-            objMFSink = new MFSinkClass();
 
             //playerState.bLoop = checkBoxLoop.Checked;
 
@@ -85,8 +81,8 @@ namespace MFormatConfidence1
             pause();
 
             //Configure preview
-            objPreview.PreviewWindowSet("", panelPreview.Handle.ToInt32());
-            //objPreview.PreviewEnable("", Convert.ToInt32(checkBoxAudio.Checked), Convert.ToInt32(checkBoxVideo.Checked));
+            objPreview.PreviewWindowSet("", panelPlayback.Handle.ToInt32());
+            objPreview.PreviewEnable("", 1, 1);
 
             //FillVideoFormats();
             avProps.vidProps.eVideoFormat = eMVideoFormat.eMVF_Custom;
@@ -111,12 +107,143 @@ namespace MFormatConfidence1
 
         private bool NextFrame()
         {
+            // Get request pos and set pause and reverse flags
+            double dblRequest = -1.0;
+            string strParams = string.Empty;
+
+            // Update player state
+            lock (playerState.stateLock)
+            {
+                if (playerState.state == eState.eST_Pause)
+                    strParams = " pause=true";
+                else if (playerState.state == eState.eST_PlayRev || playerState.state == eState.eST_StepRev)
+                    strParams = " reverse=true";
+
+                // Update player state
+                if (playerState.state == eState.eST_StepFwd || playerState.state == eState.eST_StepRev)
+                {
+                    // Pause on next iteration - because single frame was requested
+                    playerState.state = eState.eST_Pause;
+                }
+
+                // Get request time and set next cycle request to next frame 
+                // -1 as first parameter means "give me next frame", -5 means "give me next next 5th frame" etc,
+                // this works accordingly when the reverse=true parameter is set.
+                // positive values are uninterpreted as "give me frame at position"
+                dblRequest = playerState.dblFrameRequest;
+                playerState.dblFrameRequest = -1 * (int)(playerState.dblRate);
+            }
+
+
+            // Next frame cycle:
+            // Get frame from reader and send to preview
+            // Note: Preview keep frame according to frame time 
+
+            MFFrame pFrame = null;
+            lock (objLock) // For prevent reader replace in OpenFile() and overlay change
+            {
+                // Get next frame or frame by position
+                // -1 as first parameter means "give me next frame", -5 means "give me next next 5th frame" etc,
+                // this works accordingly when the reverse=true parameter is set.
+                // positive values are uninterpreted as "give me frame at position"
+                try
+                {
+                    if (objMFReader != null)
+                        objMFReader.SourceFrameConvertedGetByTime(ref avProps, dblRequest, -1, out pFrame, strParams);
+
+                    // Update avProps
+                    if (pFrame != null)
+                    {
+                        int nASamples = 0;
+                        pFrame.MFAVPropsGet(out avProps, out nASamples);
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show("Error occurs during file decoding:\n\n" + ex.Message, playerState.strFileName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+
+
+            if (pFrame != null)
+            {
+                try
+                {                  
+                    releaseComObj(pFrame);
+                }
+
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show("Error occurs during frame processing:\n\n" + ex.Message, m_playerState.strFileName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+
+
+            // Check for the last frame
+            if ((Time.eFFlags & eMFrameFlags.eMFF_Last) != 0)
+            {
+                lock (playerState.stateLock)
+                {
+                    // Pause playback at the end of the file if loop is disabled
+                    if (!playerState.bLoop)
+                        pause();
+
+                    if (playerState.state == eState.eST_PlayRev)
+                    {
+                        // Rewind to end in case of reverse playback
+                        rewindToEnd();
+                    }
+                    else if (m_playerState.state == eState.eST_PlayFwd)
+                    {
+                        // Rewind to start in case of direct playback
+                        rewindToStart();
+                    }
+                }
+            }
             return true;
         }
 
 
-        //button click events
-        private void btnLoad_Click(object sender, EventArgs e)
+        private void OpenFile(string _filename)
+        {          
+            // Open next file
+            // Change current reader with new one
+            lock (objLock) // For preview access from worker thread
+            {
+                try
+                {
+                    if (objMFReader == null)
+                        objMFReader = new MFReaderClass();
+
+                    objMFReader.ReaderOpen(_filename, "");
+
+                    pause();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error open file:" + _filename + "\n\n" + ex.Message);
+                    return;
+                }
+
+                //Get file duration
+                objMFReader.ReaderDurationGet(out playerState.dblDuration);
+                playerState.strFileName = _filename;
+
+                MFFrame pFrame;
+                objMFReader.SourceFrameGetByTime(-1, -1, out pFrame, "");
+                
+            }
+
+            rewindToStart();
+
+            GC.Collect();
+        }
+
+
+
+
+        private void buttonLoadFile_Click(object sender, EventArgs e)
         {
             // Open next file
             OpenFileDialog openFileDialog = new OpenFileDialog();

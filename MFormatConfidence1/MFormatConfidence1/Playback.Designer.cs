@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panelPlayback = new System.Windows.Forms.Panel();
             this.btnLoad = new System.Windows.Forms.Button();
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // panel1
+            // panelPlayback
             // 
-            this.panel1.Location = new System.Drawing.Point(42, 61);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(548, 263);
-            this.panel1.TabIndex = 0;
+            this.panelPlayback.Location = new System.Drawing.Point(42, 61);
+            this.panelPlayback.Name = "panelPlayback";
+            this.panelPlayback.Size = new System.Drawing.Size(548, 263);
+            this.panelPlayback.TabIndex = 0;
             // 
             // btnLoad
             // 
@@ -87,7 +87,7 @@
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.btnLoad);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panelPlayback);
             this.Name = "Playback";
             this.Text = "Playback";
             this.ResumeLayout(false);
@@ -96,7 +96,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelPlayback;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnPause;
