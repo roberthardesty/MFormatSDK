@@ -174,7 +174,7 @@ namespace MFormatConfidence1
 
                 catch (System.Exception ex)
                 {
-                    MessageBox.Show("Error occurs during frame processing:\n\n" + ex.Message, m_playerState.strFileName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Error occurs during frame processing:\n\n" + ex.Message, playerState.strFileName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
             }
@@ -192,12 +192,12 @@ namespace MFormatConfidence1
                     if (playerState.state == eState.eST_PlayRev)
                     {
                         // Rewind to end in case of reverse playback
-                        rewindToEnd();
+                        seek(playerState.dblDuration);
                     }
-                    else if (m_playerState.state == eState.eST_PlayFwd)
+                    else if (playerState.state == eState.eST_PlayFwd)
                     {
                         // Rewind to start in case of direct playback
-                        rewindToStart();
+                        seek(0);
                     }
                 }
             }
@@ -235,13 +235,16 @@ namespace MFormatConfidence1
                 
             }
 
-            rewindToStart();
+            seek(0);
 
             GC.Collect();
         }
 
-
-
+        private void releaseComObj(object comObj)
+        {
+            if (comObj != null)
+                Marshal.ReleaseComObject(comObj);
+        }
 
         private void buttonLoadFile_Click(object sender, EventArgs e)
         {
@@ -249,6 +252,115 @@ namespace MFormatConfidence1
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == DialogResult.OK && openFileDialog.FileName != string.Empty)
                 OpenFile(openFileDialog.FileName);
+        }
+
+        private void play()
+        {
+            lock (playerState.stateLock)
+            {
+                // Set direct playback state
+                playerState.dblRate = 1;
+                playerState.state = eState.eST_PlayFwd;
+            }
+        }
+
+        private void reverse()
+        {
+            lock (playerState.stateLock)
+            {
+                // Set reverse playback state
+                playerState.dblRate = 1;
+                playerState.state = eState.eST_PlayRev;
+            }
+        }
+
+        private void pause()
+        {
+            lock (playerState.stateLock)
+            {
+                // Set pause state
+                playerState.dblRate = 1;
+                playerState.state = eState.eST_Pause;
+            }
+        }
+
+        private void stepFwd()
+        {
+            lock (playerState.stateLock)
+            {
+                // Set single frame forward state
+                playerState.state = eState.eST_StepFwd;
+            }
+        }
+
+        private void stepBack()
+        {
+            lock (playerState.stateLock)
+            {
+                // Set single frame backward state
+                playerState.state = eState.eST_StepRev;
+            }
+        }
+
+        private void fastFwd()
+        {
+            lock (playerState.stateLock)
+            {
+                // Set needed rate and forward playback state
+                if (playerState.state == eState.eST_PlayFwd)
+                {
+                    playerState.dblRate += 1.0;
+                }
+                else
+                {
+                    playerState.dblRate = 2.0;
+                    playerState.state = eState.eST_PlayFwd;
+                }
+            }
+        }
+
+        private void fastBackw()
+        {
+            lock (playerState.stateLock)
+            {
+                // Set needed rate and reverse playback state
+                if (playerState.state == eState.eST_PlayRev)
+                {
+                    playerState.dblRate += 1.0;
+                }
+                else
+                {
+                    playerState.dblRate = 2.0;
+                    playerState.state = eState.eST_PlayRev;
+                }
+            }
+        }
+        private void seek(double Pos)
+        {
+            lock (playerState.stateLock)
+            {
+                // Request frame at the specified position
+                playerState.dblFrameRequest = Pos;
+            }
+
+            // Start worker (e.g. if error during playback occurs)
+            //m_bWork = true;
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
+            play();
+        }
+
+        private void btnPause_Click(object sender, EventArgs e)
+        {
+            pause();
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            pause();
+            //rewindToStart();          
         }
     }
 }
