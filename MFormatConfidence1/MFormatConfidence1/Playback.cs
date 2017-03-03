@@ -93,8 +93,8 @@ namespace MFormatConfidence1
             threadWorker.Name = "thread_DoWork";
             threadWorker.Start();
 
-            if (m_arrArgs.Length > 0 && File.Exists(m_arrArgs[0]))
-                OpenFile(m_arrArgs[0]);
+            //if (m_arrArgs.Length > 0 && File.Exists(m_arrArgs[0]))
+              //  OpenFile(m_arrArgs[0]);
         }
 
         private void thread_DoWork(CancellationToken token)

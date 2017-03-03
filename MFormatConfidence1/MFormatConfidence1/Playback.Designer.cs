@@ -95,6 +95,7 @@
             this.Name = "Playback";
             this.Text = "Playback";
             this.ResumeLayout(false);
+            this.Load += new System.EventHandler(this.Playback_Load);
 
         }
 
