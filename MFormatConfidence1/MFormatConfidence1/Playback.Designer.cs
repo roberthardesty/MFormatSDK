@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.panelPlayback = new System.Windows.Forms.Panel();
-            this.btnLoad = new System.Windows.Forms.Button();
+            this.btnLoadFile = new System.Windows.Forms.Button();
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
@@ -42,14 +42,15 @@
             this.panelPlayback.Size = new System.Drawing.Size(548, 263);
             this.panelPlayback.TabIndex = 0;
             // 
-            // btnLoad
+            // btnLoadFile
             // 
-            this.btnLoad.Location = new System.Drawing.Point(42, 12);
-            this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(75, 23);
-            this.btnLoad.TabIndex = 1;
-            this.btnLoad.Text = "Load File";
-            this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoadFile.Location = new System.Drawing.Point(42, 12);
+            this.btnLoadFile.Name = "btnLoadFile";
+            this.btnLoadFile.Size = new System.Drawing.Size(75, 23);
+            this.btnLoadFile.TabIndex = 1;
+            this.btnLoadFile.Text = "Load File";
+            this.btnLoadFile.UseVisualStyleBackColor = true;
+            this.btnLoadFile.Click += new System.EventHandler(this.btnLoadFile_Click);
             // 
             // btnPlay
             // 
@@ -89,7 +90,7 @@
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnPlay);
-            this.Controls.Add(this.btnLoad);
+            this.Controls.Add(this.btnLoadFile);
             this.Controls.Add(this.panelPlayback);
             this.Name = "Playback";
             this.Text = "Playback";
@@ -100,7 +101,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panelPlayback;
-        private System.Windows.Forms.Button btnLoad;
+        private System.Windows.Forms.Button btnLoadFile;
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.Button btnStop;

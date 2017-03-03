@@ -60,6 +60,7 @@
             this.btnPlayback.TabIndex = 2;
             this.btnPlayback.Text = "Playback";
             this.btnPlayback.UseVisualStyleBackColor = true;
+            this.btnPlayback.Click += new System.EventHandler(this.btnPlayback_Click);
             // 
             // comboBoxDevices
             // 
@@ -93,8 +94,8 @@
             this.Controls.Add(this.panelPreview);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.ResumeLayout(false);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.ResumeLayout(false);
 
         }
 

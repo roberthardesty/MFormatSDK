@@ -246,7 +246,7 @@ namespace MFormatConfidence1
                 Marshal.ReleaseComObject(comObj);
         }
 
-        private void buttonLoadFile_Click(object sender, EventArgs e)
+        private void btnLoadFile_Click(object sender, EventArgs e)
         {
             // Open next file
             OpenFileDialog openFileDialog = new OpenFileDialog();

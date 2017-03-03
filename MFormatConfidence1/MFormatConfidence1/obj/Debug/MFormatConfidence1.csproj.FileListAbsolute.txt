@@ -34,3 +34,11 @@ C:\Users\roberth\Desktop\Repos\MFormatSDK\MFormatConfidence1\MFormatConfidence1\
 C:\Users\roberth\Desktop\Repos\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.csproj.ResolveComReference.cache
 C:\Users\roberth\Desktop\Repos\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.exe
 C:\Users\roberth\Desktop\Repos\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.pdb
+C:\Users\roberth\Desktop\Repos\MFormatSDK\MFormatConfidence1\MFormatConfidence1\bin\Debug\MFormatConfidence1.exe
+C:\Users\roberth\Desktop\Repos\MFormatSDK\MFormatConfidence1\MFormatConfidence1\bin\Debug\MFormatConfidence1.pdb
+C:\Users\roberth\Desktop\Repos\MFormatSDK\MFormatConfidence1\MFormatConfidence1\bin\Debug\Interop.MFORMATSLib.dll
+C:\Users\roberth\Desktop\Repos\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.csprojResolveAssemblyReference.cache
+C:\Users\roberth\Desktop\Repos\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.Form1.resources
+C:\Users\roberth\Desktop\Repos\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.Playback.resources
+C:\Users\roberth\Desktop\Repos\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.Properties.Resources.resources
+C:\Users\roberth\Desktop\Repos\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.csproj.GenerateResource.Cache

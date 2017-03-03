@@ -33,6 +33,8 @@ namespace MFormatConfidence1
         private MFPreviewClass mPreview;
         private MFLiveClass mLive;
 
+        public Playback playbackDialog;
+
         M_AV_PROPS avProps;
 
         private bool isWorking;
@@ -40,8 +42,9 @@ namespace MFormatConfidence1
 
         private CancellationTokenSource cancelSource;
         private Thread threadWorker;
+        private string[] myArgs;
 
-        public Form1()
+        public Form1(string[] args)
         {
             InitializeComponent();
         }
@@ -228,6 +231,12 @@ namespace MFormatConfidence1
         {
             isRec = false;
             mWriter.WriterClose(1);
-        } 
+        }
+
+        private void btnPlayback_Click(object sender, EventArgs e)
+        {
+            this.playbackDialog = new Playback(myArgs);
+            this.playbackDialog.ShowDialog();
+        }
     }
 }
