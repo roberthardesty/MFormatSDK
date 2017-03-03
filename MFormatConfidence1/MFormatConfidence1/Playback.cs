@@ -79,20 +79,18 @@ namespace MFormatConfidence1
             objRenderer = new MFRendererClass();
             objMFSink = new MFSinkClass();
 
-            playerState.bLoop = checkBoxLoop.Checked;
+            //playerState.bLoop = checkBoxLoop.Checked;
 
             // First file start with pause, next file open in same state
             pause();
 
             //Configure preview
             objPreview.PreviewWindowSet("", panelPreview.Handle.ToInt32());
-            objPreview.PreviewEnable("", Convert.ToInt32(checkBoxAudio.Checked), Convert.ToInt32(checkBoxVideo.Checked));
+            //objPreview.PreviewEnable("", Convert.ToInt32(checkBoxAudio.Checked), Convert.ToInt32(checkBoxVideo.Checked));
 
             //FillVideoFormats();
             avProps.vidProps.eVideoFormat = eMVideoFormat.eMVF_Custom;
 
-            // Fill renderer devices
-            FillRenderers();
 
             cancelSource = new CancellationTokenSource();
             threadWorker = new Thread(() => thread_DoWork(cancelSource.Token));
@@ -114,6 +112,16 @@ namespace MFormatConfidence1
         private bool NextFrame()
         {
             return true;
+        }
+
+
+        //button click events
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            // Open next file
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == DialogResult.OK && openFileDialog.FileName != string.Empty)
+                OpenFile(openFileDialog.FileName);
         }
     }
 }
