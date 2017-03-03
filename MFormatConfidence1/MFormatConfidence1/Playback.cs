@@ -60,12 +60,14 @@ namespace MFormatConfidence1
 
         private M_AV_PROPS avProps;
         private M_TIME Time;
-        private string[] m_arrArgs;
+
+        private string FileName;
+
         private CancellationTokenSource cancelSource;
 
-        public Playback(string[] args)
+        public Playback(string args)
         {
-            m_arrArgs = args;
+            FileName = args;
             InitializeComponent();
         }
 
@@ -168,8 +170,9 @@ namespace MFormatConfidence1
             if (pFrame != null)
             {
                 try
-                {                  
-                    releaseComObj(pFrame);
+                {
+                    objPreview.ReceiverFramePut(pFrame, -1, "");
+                    releaseComObj(pFrame);                    
                 }
 
                 catch (System.Exception ex)
@@ -216,8 +219,8 @@ namespace MFormatConfidence1
                     if (objMFReader == null)
                         objMFReader = new MFReaderClass();
 
-                    objMFReader.ReaderOpen(_filename, "");
-
+                    objMFReader.ReaderOpen(@"C:\Users\roberth\Desktop\yolo.webm", "");
+                    
                     pause();
                 }
                 catch (Exception ex)
@@ -247,11 +250,8 @@ namespace MFormatConfidence1
         }
 
         private void btnLoadFile_Click(object sender, EventArgs e)
-        {
-            // Open next file
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == DialogResult.OK && openFileDialog.FileName != string.Empty)
-                OpenFile(openFileDialog.FileName);
+        { 
+                OpenFile(FileName);
         }
 
         private void play()

@@ -33,6 +33,7 @@ namespace MFormatConfidence1
         private MFPreviewClass mPreview;
         private MFLiveClass mLive;
 
+        public SaveFileDialog sfd;
         public Playback playbackDialog;
 
         M_AV_PROPS avProps;
@@ -204,7 +205,7 @@ namespace MFormatConfidence1
 
         private void InitRecord()
         {
-            SaveFileDialog sfd = new SaveFileDialog();
+            sfd = new SaveFileDialog();
             try
             {
                 string strFormat;
@@ -235,7 +236,7 @@ namespace MFormatConfidence1
 
         private void btnPlayback_Click(object sender, EventArgs e)
         {
-            this.playbackDialog = new Playback(myArgs);
+            this.playbackDialog = new Playback(sfd.FileName);
             this.playbackDialog.ShowDialog();
         }
     }
