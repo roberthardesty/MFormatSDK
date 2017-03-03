@@ -13,3 +13,17 @@ C:\Users\roberth\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\bin\De
 C:\Users\roberth\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.exe
 C:\Users\roberth\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.pdb
 C:\Users\roberth\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\bin\Debug\Interop.MFORMATSLib.dll
+C:\Users\deanal\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\bin\Debug\MFormatConfidence1.exe.config
+C:\Users\deanal\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\Interop.MCHROMAKEYLib.dll
+C:\Users\deanal\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\Interop.MFORMATSLib.dll
+C:\Users\deanal\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\Interop.MLCHARGENLib.dll
+C:\Users\deanal\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.csproj.ResolveComReference.cache
+C:\Users\deanal\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.exe
+C:\Users\deanal\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.pdb
+C:\Users\deanal\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\bin\Debug\MFormatConfidence1.exe
+C:\Users\deanal\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\bin\Debug\MFormatConfidence1.pdb
+C:\Users\deanal\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\bin\Debug\Interop.MFORMATSLib.dll
+C:\Users\deanal\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.csprojResolveAssemblyReference.cache
+C:\Users\deanal\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.Form1.resources
+C:\Users\deanal\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.Properties.Resources.resources
+C:\Users\deanal\Desktop\MFormatSDK\MFormatConfidence1\MFormatConfidence1\obj\Debug\MFormatConfidence1.csproj.GenerateResource.Cache
